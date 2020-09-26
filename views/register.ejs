@@ -8,24 +8,15 @@
         <link rel="stylesheet" href="css/styles.css">
 
     </head>
-    <form action="">
+    <form action="/register" method="POST">
         <div class="form-container">
           <h1>Register</h1>
       
-          <label for="fname"><b>First Name</b></label>
-          <input type="text" placeholder="First Name" name="fname" required>
+          <label for="username"><b>User Name</b></label>
+          <input type="text" placeholder="Your userame" name="username" required>
 
-          <label for="lname"><b>Last Name</b></label>
-          <input type="text" placeholder="Last Name" name="lname" required>
-
-          <label for="email"><b>Email Address</b></label>
-          <input type="text" placeholder="your@example.com" name="email" required>
-
-          <label for="institution"><b>Institution</b></label>
-          <input type="text" placeholder="Institution" name="institution" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" required>
+          <label for="password"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
       
           <label for="psw-repeat"><b>Confirm Password</b></label>
           <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
@@ -35,7 +26,7 @@
         </div>
       
         <div class="container-signin">
-          <h6>Already have an account? <a href="#">Sign in</a>.</h6>
+          <h6>Already have an account? <a href="/login">Sign in</a>.</h6>
         </div>
       </form>
 </body>
