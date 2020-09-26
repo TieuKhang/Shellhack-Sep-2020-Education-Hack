@@ -67,7 +67,8 @@ const defaultList = [intro, outro];
 //create User schema for the database
 const userSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    customToDoList: [assignList]
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -104,7 +105,7 @@ app.route("/login")
             }
             else {
                 passport.authenticate("local")(req, res, function () {
-                    res.redirect("/list");
+                    res.redirect("/" + req.body.username);
                 })
             }
         })
@@ -123,7 +124,7 @@ app.route("/register")
             }
             else {
                 passport.authenticate("local")(req,res, function () {
-                res.redirect("/list");
+                res.redirect("/" + req.body.username);
                 })
             }
         })
@@ -161,8 +162,11 @@ app.route("/list")
         const newItem = new ToDoList({
             name: addItem
         });
-        newItem.save();
-        res.redirect("/list");
+        User.findOne({ username: trackList }, function (err, foundList) {
+            foundList.customToDoList.push(newItem);
+            foundList.save();
+            res.redirect("/" + trackList);
+        });
     })
 
 app.post("/delete", function (req, res) {
@@ -170,15 +174,34 @@ app.post("/delete", function (req, res) {
     const deleteItem = req.body.checkbox;
     // current custom List
     const customDelete = req.body.customCheckbox;
-        // delete item from custom lsit
-        ToDoList.findByIdAndRemove(deleteItem, function (err) {
-            if (!err) {
-                console.log("succesfully delete item!");
-                res.redirect("/list");
-            }
-        });
+    User.findOneAndUpdate({ username: customDelete }, { $pull: { customToDoList: { _id: deleteItem } } }, function (err, foundList) {
+        if (!err) {
+            res.redirect("/" + customDelete);
+        }
+    });
 });
 
+app.get("/:customList", function (req, res) {
+    const customList = req.params.customList;
+    // check if the custom list has already existed
+    if (req.isAuthenticated()){
+        User.findOne({ username: customList }, function (err, foundList) {
+            if (!err) {
+                if (!foundList) {
+                    const defaultCustomList = new User({
+                        username: customList ,
+                        customToDoList: defaultList
+                    });
+                    defaultCustomList.save();
+                    res.redirect("/" + customList);
+                }
+                else {
+                    res.render("list", { listName: foundList.username  , listItem: foundList.customToDoList });
+                }
+            }
+        });
+    }
+});
 
 app.listen(process.env.PORT || 2000, function () {
     console.log("Listening on port 2000");
