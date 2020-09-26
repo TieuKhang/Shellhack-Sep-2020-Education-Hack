@@ -13,6 +13,9 @@ const app = express();
 // initialize parsing info sent from the post request
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// connect to public folder to use CSS
+app.use(express.static("public"));
+
 // connect to ejs
 app.set('view engine', 'ejs');
 
