@@ -43,12 +43,12 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopolo
 mongoose.set("useCreateIndex", true);
 
 
-// initialize List Schema
+// initialize To Do List Schema
 const assignList = new mongoose.Schema({
     name: String
 });
 
-// initialize Model
+// initialize To Do List Model
 const ToDoList = mongoose.model("ToDoList", assignList);
 
 // 1st default data
@@ -58,7 +58,7 @@ const intro = new ToDoList({
 
 // 2nd default data
 const outro = new ToDoList({
-    name: 'Delete any message by clicking on the left of it'
+    name: 'Delete any message by clicking on it'
 });
 
 // array consist of default data
@@ -98,7 +98,7 @@ app.route("/login")
             username: req.body.username,
             password: req.body.password
         })
-    
+        //check login status
         req.login(user, function (err) {
             if (err) {
                 console.log(err);
@@ -117,6 +117,7 @@ app.route("/register")
         res.render("register");
     })
     .post(function (req, res) {
+        //register users
         User.register({ username: req.body.username }, req.body.password, function (err, user) {
             if (err) {
                 console.log(err);
@@ -162,6 +163,7 @@ app.route("/list")
         const newItem = new ToDoList({
             name: addItem
         });
+        //find the list of that specific user
         User.findOne({ username: trackList }, function (err, foundList) {
             foundList.customToDoList.push(newItem);
             foundList.save();
@@ -174,6 +176,7 @@ app.post("/delete", function (req, res) {
     const deleteItem = req.body.checkbox;
     // current custom List
     const customDelete = req.body.customCheckbox;
+    //delete an item from a list of a specific user
     User.findOneAndUpdate({ username: customDelete }, { $pull: { customToDoList: { _id: deleteItem } } }, function (err, foundList) {
         if (!err) {
             res.redirect("/" + customDelete);
@@ -183,8 +186,8 @@ app.post("/delete", function (req, res) {
 
 app.get("/:customList", function (req, res) {
     const customList = req.params.customList;
-    // check if the custom list has already existed
     if (req.isAuthenticated()){
+        // check if the custom list has already existed
         User.findOne({ username: customList }, function (err, foundList) {
             if (!err) {
                 if (!foundList) {
@@ -192,6 +195,7 @@ app.get("/:customList", function (req, res) {
                         username: customList ,
                         customToDoList: defaultList
                     });
+                    console.log(defaultCustomList);
                     defaultCustomList.save();
                     res.redirect("/" + customList);
                 }
