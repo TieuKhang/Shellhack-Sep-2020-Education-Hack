@@ -131,6 +131,13 @@ app.route("/register")
         })
     });
 
+//logout route
+app.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect("/");
+});
+
+//list route
 app.route("/list")
     .get(function (req, res) {
         // read data of database
@@ -204,6 +211,9 @@ app.get("/:customList", function (req, res) {
                 }
             }
         });
+    }
+    else{
+        res.redirect("/");
     }
 });
 
