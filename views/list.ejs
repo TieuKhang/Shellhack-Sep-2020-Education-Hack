@@ -8,17 +8,15 @@
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     </head>
     <body>
-        <img src="Images/background.jpg" alt="background" class="background">
         <div class="logout-container">
-            <a href="/homepage"><i class="fas fa-sign-out-alt"> &nbsp Home Page</i></a>
+            <a href="/logout"><i class="fas fa-sign-out-alt"> &nbsp Log Out</i></a>
         </div>
-        <div class="bg-container"></div>
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <ul class="list-group" style="width:400px">
+                    <ul class="list-group" style="width:400px;">
                         <li class="list-group-item justify-content-center"> 
-                            <h3 class="text-center"> <%=listName%> 's to do list &nbsp; <i class="fas fa-list-ul"></i></h3> 
+                            <h3 class="text-center"> <%=listName%>'s to do list &nbsp; <i class="fas fa-list-ul"></i></h3> 
                         </li>
                         <% listItem.forEach(function(item){ %>
                             <li class="list-group-item justify-content-center list-group-item-dark">
@@ -28,21 +26,26 @@
                                 </form>
                             </li>
                         <% }) %>
-                        <form action="/list" method="post">
+                        <form action="/list" method="post" style="padding-bottom:30px;">
                             <div class="input-group input-group-lg">
                                 <div class="input-group-prepend">
                                     <button name="trackCurrentList" value="<%=listName%>" type="submit" class="input-group-text" id="basic-addon1"><i class="far fa-plus-square"></i></button>
                                 </div>
                                 <input name="addingItem" type="text" class="form-control list-group-item-light" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-                                
-                                
                             </div>
                         </form>
                     </ul>
-                    <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
                 </div>
             </div>
         </div>
+        <style>
+            body {
+              background-image: url('Images/background.jpg');
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+              background-size: 100% 100%;
+            }
+        </style>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

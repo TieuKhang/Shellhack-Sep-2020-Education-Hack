@@ -177,3 +177,8 @@ h3 {
     color: white;
 }
 
+.logout-btn {
+    margin:20px;
+    width: 20em;
+    border: 1px solid black;
+}
